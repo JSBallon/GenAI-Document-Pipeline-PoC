@@ -1,0 +1,216 @@
+prompt_id: "cover_letter_prompt"
+version: "0.1.0"
+created: "2026-02-16"
+author: "Coding Agent"
+category: "generation"
+model_target: 
+  - "openai/gpt-4-turbo"
+  - "anthropic/claude-3.5-sonnet"
+description: "Generates a professional 1-page cover letter (Anschreiben) tailored to job requirements"
+
+user_prompt_template: |
+  # Aufgabe: Erstelle ein professionelles Anschreiben (max. 1 Seite)
+  
+  ## Kontext
+  
+  ### Stellenanzeige
+  **Position**: {job_title}
+  **Unternehmen**: {company_name}
+  **Standort**: {location}
+  
+  ### Job Requirements (nach Priorität)
+  
+  #### Critical Requirements (MUSS vorhanden sein):
+  {critical_requirements}
+  
+  #### Important Requirements (Sollte vorhanden sein):
+  {important_requirements}
+  
+  #### Nice-to-Have Requirements (Optional):
+  {nice_to_have_requirements}
+  
+  ## Kandidaten-Profil (CV Highlights)
+  
+  ### Persönliche Daten
+  {candidate_personal_info}
+  
+  ### Berufserfahrung (Auszug)
+  {candidate_experience}
+  
+  ### Skills
+  {candidate_skills}
+  
+  ### Bildung
+  {candidate_education}
+  
+  ### Sprachen
+  {candidate_languages}
+  
+  ## Instruktionen
+  
+  1. **Anschreiben-Struktur** (Klassisches Geschäftsbrief-Format):
+     ```markdown
+     [Kandidatenname]
+     [Adresse - falls vorhanden]
+     [E-Mail] | [Telefon]
+     
+     [Firmenname]
+     z.Hd. Personalabteilung
+     [Firmenadresse - falls vorhanden]
+     
+     [Ort], [Datum]
+     
+     **Bewerbung als [Position]**
+     
+     Sehr geehrte Damen und Herren,
+     
+     [Absatz 1: Einstieg + Interesse]
+     [Absatz 2: Qualifikationen + Job-Match]
+     [Absatz 3: Spezifische Achievements + Value Proposition]
+     [Absatz 4: Unternehmensbezug + Motivation]
+     [Absatz 5: Call-to-Action + Verfügbarkeit]
+     
+     Mit freundlichen Grüßen
+     
+     [Kandidatenname]
+     ```
+  
+  2. **Absatz-Guidelines**:
+     
+     **Absatz 1 (Einstieg)**:
+     - Bezug zur Stellenanzeige herstellen
+     - Interesse klar kommunizieren
+     - Optional: Wie auf Stelle aufmerksam geworden
+     - Länge: 2-3 Sätze
+     
+     **Absatz 2 (Qualifikationen)**:
+     - Top 3 Job Requirements ansprechen
+     - Konkrete CV-Evidenz nennen (Jahre Erfahrung, Technologien)
+     - Fokus auf Hard Skills
+     - Länge: 3-4 Sätze
+     
+     **Absatz 3 (Achievements)**:
+     - 1-2 quantifizierbare Erfolge hervorheben
+     - Relevanz für die neue Position betonen
+     - Problemlösungskompetenz demonstrieren
+     - Länge: 3-4 Sätze
+     
+     **Absatz 4 (Motivation)**:
+     - Warum dieses Unternehmen? (Company Values, Produkte, Mission)
+     - Wie passen Karriereziele zur Position?
+     - Cultural Fit demonstrieren
+     - Länge: 2-3 Sätze
+     
+     **Absatz 5 (Abschluss)**:
+     - Interesse an persönlichem Gespräch
+     - Verfügbarkeit / Kündigungsfrist
+     - Proaktiver Ton (nicht passiv abwartend)
+     - Länge: 2 Sätze
+  
+  3. **Stil-Richtlinien**:
+     - Professionell, aber nicht steif
+     - Aktive Verben (entwickelt, implementiert, optimiert)
+     - Konkret statt allgemein ("5 Jahre Python" statt "umfangreiche Erfahrung")
+     - Ich-Perspektive, aber nicht egozentrisch
+     - Keine Füllwörter oder Floskeln
+  
+  4. **Source Attribution** (KRITISCH):
+     - Jede Aussage muss auf CV-Fakten basieren
+     - Füge Source-Kommentare hinzu:
+       ```markdown
+       <!-- SOURCE: Berufserfahrung > Senior Developer @ Firma X -->
+       ```
+  
+  5. **Confidence Assessment**:
+     - Bewerte die Stärke jedes Arguments (0.0-1.0)
+     - High Confidence: Direkte Match zwischen Requirement und CV
+     - Low Confidence: Indirekte oder schwache Verbindung
+  
+  6. **Personalisierung**:
+     - Vermeide generische Formulierungen
+     - Nutze spezifische Details aus Job Ad (Technologien, Projekte, Ziele)
+     - Falls Ansprechpartner bekannt: Personalisierte Anrede
+  
+  ## Output-Format
+  
+  Liefere ein **JSON-Objekt** mit folgender Struktur:
+  
+  ```json
+  {
+    "cover_letter_markdown": "Max Mustermann\n...",
+    "metadata": {
+      "recipient": {
+        "company": "{company_name}",
+        "contact_person": "{name}" oder "Personalabteilung",
+        "department": "{dept}" oder null
+      },
+      "key_arguments": [
+        {
+          "argument": "5+ Jahre Python-Entwicklung mit Django und FastAPI",
+          "source_sections": ["Berufserfahrung > Senior Backend Developer"],
+          "confidence": 0.95,
+          "relevance": "critical_requirement"
+        },
+        {
+          "argument": "Erfolgreich Team von 4 Entwicklern geleitet",
+          "source_sections": ["Berufserfahrung > Team Lead Position"],
+          "confidence": 0.88,
+          "relevance": "important_requirement"
+        }
+      ],
+      "company_research": {
+        "mentioned_aspects": ["Innovative Produkte", "Tech Stack Match"],
+        "personalization_level": "medium",
+        "source": "job_ad_analysis"
+      },
+      "overall_confidence": 0.91,
+      "word_count": 385,
+      "tone": "professional_enthusiastic",
+      "flags": []
+    }
+  }
+  ```
+  
+  ## Governance-Checks (vor Output)
+  
+  - [ ] Alle Qualifikationen basieren auf CV-Daten
+  - [ ] Source Attribution für alle Claims
+  - [ ] Confidence Scores dokumentiert
+  - [ ] Keine übertriebenen oder unbelegten Aussagen
+  - [ ] Word Count ≤ 400 Wörter
+  - [ ] Sprache: Professionelles Deutsch
+  - [ ] Ton: Selbstbewusst, aber nicht arrogant
+  - [ ] Keine Rechtschreib-/Grammatikfehler
+  
+  ## Besondere Hinweise
+  
+  **Was zu VERMEIDEN ist**:
+  - ❌ "Hiermit bewerbe ich mich..." (veraltet)
+  - ❌ "Ich bin teamfähig, motiviert, flexibel" (Phrasen ohne Beleg)
+  - ❌ Wiederholung des gesamten CVs
+  - ❌ Negative Formulierungen ("Obwohl ich kein X habe...")
+  - ❌ Übertreibungen ohne Evidenz
+  
+  **Was zu NUTZEN ist**:
+  - ✅ "Mit über 5 Jahren Erfahrung in Python-Entwicklung..."
+  - ✅ "Meine Expertise in Django ermöglichte..."
+  - ✅ Konkrete Zahlen und Erfolge
+  - ✅ Positiver, zukunftsorientierter Ton
+  - ✅ Klare Value Proposition für den Arbeitgeber
+  
+  **Starte jetzt mit der Anschreiben-Generierung!**
+
+metadata:
+  max_tokens: 2500
+  temperature: 0.8
+  top_p: 0.95
+  governance_controls:
+    - "source_attribution"
+    - "confidence_scoring"
+    - "tone_analysis"
+    - "word_count_validation"
+    - "factual_accuracy_check"
+  output_schema: "cover_letter_output_v1"
+  estimated_tokens: 1800
+  language: "de"
+  tone: "professional_enthusiastic"

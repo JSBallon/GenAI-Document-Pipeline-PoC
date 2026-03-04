@@ -1,0 +1,167 @@
+prompt_id: "cv_generation_prompt"
+version: "0.1.0"
+created: "2026-02-16"
+author: "Coding Agent"
+category: "generation"
+model_target: 
+  - "openai/gpt-4-turbo"
+  - "anthropic/claude-3.5-sonnet"
+description: "Generates a tailored 1-page CV based on job requirements and candidate CV data"
+
+user_prompt_template: |
+  # Aufgabe: Erstelle einen zielgerichteten CV (max. 1 Seite)
+  
+  ## Kontext
+  
+  Du erstellst einen maßgeschneiderten CV für folgende Stelle:
+  
+  ### Stellenanzeige
+  **Position**: {job_title}
+  **Unternehmen**: {company_name}
+  **Standort**: {location}
+  
+  ### Job Requirements (nach Priorität)
+  
+  #### Critical Requirements (MUSS vorhanden sein):
+  {critical_requirements}
+  
+  #### Important Requirements (Sollte vorhanden sein):
+  {important_requirements}
+  
+  #### Nice-to-Have Requirements (Optional):
+  {nice_to_have_requirements}
+  
+  ## Kandidaten-CV (Quelldaten)
+  
+  ### Persönliche Daten
+  ```yaml
+  {candidate_personal_info}
+  ```
+  
+  ### Berufserfahrung
+  {candidate_experience}
+  
+  ### Skills
+  {candidate_skills}
+  
+  ### Bildung
+  {candidate_education}
+  
+  ### Projekte
+  {candidate_projects}
+  
+  ### Sprachen
+  {candidate_languages}
+  
+  ## Instruktionen
+  
+  1. **Anforderungs-Analyse**:
+     - Für jedes Critical Requirement: Finde passende CV-Evidenz
+     - Priorisiere Requirements anhand der Job-Priorität
+     - Identifiziere fehlende Critical Requirements (falls vorhanden)
+  
+  2. **Content-Selektion**:
+     - Wähle die relevantesten Erfahrungen aus (max. 3-4 Positionen)
+     - Priorisiere aktuelle vor älteren Erfahrungen
+     - Fokus auf job-relevante Skills (Top 8-10)
+     - Projekte nur wenn besonders relevant
+  
+  3. **CV-Struktur** (Markdown Format):
+     ```markdown
+     # [Kandidatenname]
+     [E-Mail] | [Telefon] | [Ort]
+     
+     ## Profil
+     [2-3 Sätze: Kernqualifikationen + Job-Match]
+     
+     ## Berufserfahrung
+     ### [Position] | [Firma] | [Zeitraum]
+     - [Relevante Achievements, quantifiziert wenn möglich]
+     - [Skills + Technologien, die Job-Requirements matchen]
+     
+     ## Kernkompetenzen
+     **[Kategorie]**: [Skills, sortiert nach Job-Relevanz]
+     
+     ## Bildung
+     [Abschluss] | [Institution] | [Jahr]
+     
+     ## Sprachen
+     [Sprache]: [Level]
+     ```
+  
+  4. **Source Attribution** (KRITISCH):
+     - Füge für jeden Abschnitt Source-Kommentare hinzu:
+       ```markdown
+       <!-- SOURCE: Berufserfahrung > Senior Backend Developer @ Firma X -->
+       ```
+  
+  5. **Confidence Scoring**:
+     - Bewerte Match-Quality für jedes Requirement (0.0-1.0)
+     - Formel: Semantic Match × Recency × Specificity
+  
+  6. **Missing Requirements**:
+     - Liste alle Critical Requirements auf, die NICHT im CV gefunden wurden
+  
+  ## Output-Format
+  
+  Liefere ein **JSON-Objekt** mit folgender Struktur:
+  
+  ```json
+  {
+    "tailored_cv_markdown": "# Max Mustermann\n...",
+    "metadata": {
+      "requirements_coverage": {
+        "critical_matched": ["Python", "Django", "..."],
+        "critical_missing": ["Kafka", "..."],
+        "important_matched": ["..."],
+        "nice_to_have_matched": ["..."]
+      },
+      "source_mapping": [
+        {
+          "cv_section": "Profil",
+          "source_sections": ["Berufserfahrung > Position X", "Skills > Python"],
+          "confidence": 0.92,
+          "reasoning": "Starke Evidenz durch 5+ Jahre Python-Erfahrung"
+        },
+        {
+          "cv_section": "Berufserfahrung > Position 1",
+          "source_sections": ["Berufserfahrung > Senior Backend Developer"],
+          "confidence": 0.95,
+          "reasoning": "Direkte Match mit Job Requirements"
+        }
+      ],
+      "overall_confidence": 0.88,
+      "word_count": 580,
+      "flags": [
+        {
+          "type": "missing_critical_skill",
+          "requirement": "Kafka",
+          "suggestion": "Falls vorhanden, im CV ergänzen"
+        }
+      ]
+    }
+  }
+  ```
+  
+  ## Governance-Checks (vor Output)
+  
+  - [ ] Alle Statements basieren auf CV-Quelldaten (keine Erfindungen)
+  - [ ] Source Attribution für alle Sections vorhanden
+  - [ ] Confidence Scores berechnet und begründet
+  - [ ] Missing Critical Requirements identifiziert
+  - [ ] Word Count ≤ 600 Wörter
+  - [ ] Sprache: Professionelles Deutsch
+  
+  **Starte jetzt mit der CV-Generierung!**
+
+metadata:
+  max_tokens: 3000
+  temperature: 0.7
+  top_p: 0.95
+  governance_controls:
+    - "source_attribution"
+    - "confidence_scoring"
+    - "requirement_coverage_check"
+    - "word_count_validation"
+  output_schema: "cv_generation_output_v1"
+  estimated_tokens: 2000

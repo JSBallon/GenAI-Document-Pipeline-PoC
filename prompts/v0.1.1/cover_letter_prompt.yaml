@@ -1,0 +1,61 @@
+prompt_id: "cover_letter_minimal"
+version: "0.1.1"
+created: "2026-02-17"
+author: "Coding Agent"
+category: "generation"
+model_target: 
+  - "openai/gpt-4-turbo"
+  - "anthropic/claude-3.5-sonnet"
+description: "Simplified cover letter generation for M1-Minimal (plain markdown output, no metadata)"
+
+user_prompt_template: |
+  # Aufgabe: Erstelle ein professionelles Anschreiben (max. 1 Seite)
+  
+  ## Kandidaten-Informationen
+  
+  {candidate_summary}
+  
+  ## Zielposition
+  
+  **Stelle:** {job_title}
+  **Unternehmen:** {company_name}
+  
+  ### Anforderungen der Stelle:
+  {job_requirements}
+  
+  ## Instruktionen
+  
+  Erstelle ein professionelles Anschreiben in Markdown Format mit folgender Struktur:
+  
+  1. **Betreff**: Bewerbung als {job_title}
+  
+  2. **Einleitung** (2-3 Sätze):
+     - Motivation für die Bewerbung
+     - Kurze Vorstellung des Kandidaten
+  
+  3. **Hauptteil** (2-3 Absätze):
+     - Relevante Berufserfahrung mit Bezug zu den Stellenanforderungen
+     - Konkrete Beispiele für passende Qualifikationen
+     - Was der Kandidat zum Unternehmen beitragen kann
+  
+  4. **Schluss** (1-2 Sätze):
+     - Interesse an einem persönlichen Gespräch
+     - Verfügbarkeit / Gehaltsvorstellung (falls relevant)
+  
+  **Tonalität:**
+  - Professionell aber nicht steif
+  - Selbstbewusst ohne übertrieben zu wirken
+  - Authentisch und konkret (keine Floskeln)
+  
+  **Formatierung:**
+  - Standard-Anschreiben-Format (Deutschland)
+  - Maximal 400 Wörter
+  - Absätze durch Leerzeilen trennen
+  
+  **Liefere nur das Anschreiben in Markdown. Keine zusätzlichen Kommentare, keine JSON-Struktur, keine Metadaten.**
+
+metadata:
+  max_tokens: 2000
+  temperature: 0.8
+  top_p: 0.95
+  output_format: "plain_markdown"

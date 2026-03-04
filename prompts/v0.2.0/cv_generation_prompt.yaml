@@ -1,0 +1,57 @@
+prompt_id: "cv_generation_minimal"
+version: "0.2.0"
+created: "2026-02-18"
+author: "Coding Agent"
+category: "generation"
+model_target: 
+  - "openai/gpt-4-turbo"
+  - "anthropic/claude-3.5-sonnet"
+description: "CV generation remains plain markdown (no RAG injection in 2.9)"
+
+user_prompt_template: |
+  # Aufgabe: Erstelle einen zielgerichteten CV (max. 1 Seite)
+  
+  ## Kandidaten-Informationen
+  
+  {candidate_summary}
+  
+  ## Zielposition
+  
+  **Stelle:** {job_title}
+  **Unternehmen:** {company_name}
+  
+  ### Anforderungen der Stelle:
+  {job_requirements}
+  
+  ## Instruktionen
+  
+  Erstelle einen professionellen 1-Seiten CV in Markdown Format, der:
+  
+  1. **Profil** (2-3 Sätze): Zusammenfassung der Kernqualifikationen mit Bezug zur Stelle
+  
+  2. **Berufserfahrung**: Die 2-3 relevantesten Positionen mit:
+     - Position, Firma, Zeitraum
+     - Hauptverantwortlichkeiten (fokussiert auf job-relevante Aspekte)
+     - Erzielte Ergebnisse (quantifiziert wenn möglich)
+  
+  3. **Kernkompetenzen**: Top 8-10 Skills, sortiert nach Relevanz für die Stelle
+     - Technologien / Hard Skills
+     - Methodenkenntnisse / Soft Skills
+  
+  4. **Bildung**: Höchster Abschluss mit Institution und Jahr
+  
+  5. **Sprachen** (falls relevant)
+  
+  **Formatierung:**
+  - Verwende Markdown Headers (# für Name, ## für Sections)
+  - Bullet Points für Listen
+  - Maximal 600 Wörter
+  - Fokus auf job-relevante Informationen
+  
+  **Liefere nur den CV-Text in Markdown. Keine zusätzlichen Kommentare, keine JSON-Struktur, keine Metadaten.**
+
+metadata:
+  max_tokens: 2500
+  temperature: 0.7
+  top_p: 0.95
+  output_format: "plain_markdown"

@@ -1,0 +1,86 @@
+prompt_id: "cover_letter_rag"
+version: "0.2.0"
+created: "2026-02-18"
+author: "Coding Agent"
+category: "generation"
+model_target:
+  - "openai/gpt-4-turbo"
+  - "anthropic/claude-3.5-sonnet"
+description: "RAG-gestützte Anschreiben-Generierung mit strukturierter JSON-Ausgabe (3 Body-Absätze, Evidence-gebunden)"
+
+system_prompt: |
+  Du bist ein professioneller Karriere- und Anschreiben-Experte.
+  Du darfst ausschließlich Informationen verwenden, die in den bereitgestellten CV-Chunks enthalten sind.
+  Erfinde keine Skills, Erfahrungen, Firmen oder Zeiträume.
+  Jede Aussage im Anschreiben muss auf mindestens einen Chunk referenzierbar sein.
+
+user_prompt_template: |
+  # Aufgabe: Generiere ein strukturiertes Anschreiben (RAG-gestützt)
+
+  Du erhältst eine Liste von Job Requirements sowie dazugehörige CV-Chunks mit Relevanz-Scores.
+  Dein Output MUSS ein gültiges JSON-Objekt sein (keine Prosa außerhalb des JSON).
+
+  ## Job Requirements (priorisiert)
+  {job_requirements}
+
+  ## Retrieved CV Chunks (mit Scores, Abschnitt, Textauszug)
+  {retrieved_chunks}
+
+  ## Zielposition
+  **Stelle:** {job_title}
+  **Unternehmen:** {company_name}
+
+  ## Instruktionen (Schritte)
+  1. Sortiere die Job Requirements nach Wichtigkeit + Evidence-Qualität + Recency.
+  2. Gruppiere die wichtigsten Requirements in genau 3 thematische Blöcke.
+  3. Generiere exakt 3 Body-Absätze (jeweils genau 3 Sätze).
+  4. Erstelle zusätzlich eine Kurz-Zusammenfassung (1-3 Sätze), die:
+     - die Bewerbungsmotivation nennt ("Mit Interesse bewerbe ich mich ...")
+     - den Fit zur Stelle beschreibt
+     - ein schlagendes Argument aus den Body-Absätzen hervorhebt
+  5. Jeder Absatz muss:
+     - ein klares Thema haben
+     - ausschließlich Inhalte aus den zugeordneten Chunks verwenden
+     - die verwendeten Chunk-IDs listen
+     - eine Confidence (0.0-1.0) enthalten
+  6. **Keine Einleitung, kein Betreff, kein Abschluss** – nur die Body-Absätze als JSON.
+
+  ## Output-Schema (JSON)
+  {{
+    "paragraphs": [
+      {{
+        "paragraph_id": "body_1",
+        "theme": "...",
+        "chunk_ids": ["cv_exp_001", "cv_exp_003"],
+        "confidence": 0.87,
+        "text": "..."
+      }},
+      {{
+        "paragraph_id": "body_2",
+        "theme": "...",
+        "chunk_ids": ["cv_skills_002"],
+        "confidence": 0.81,
+        "text": "..."
+      }},
+      {{
+        "paragraph_id": "body_3",
+        "theme": "...",
+        "chunk_ids": ["cv_exp_005"],
+        "confidence": 0.78,
+        "text": "..."
+      }}
+    ],
+    "summary": "Mit Interesse bewerbe ich mich ..."
+  }}
+
+  ## Qualitätsregeln
+  - JSON muss valide sein (Double Quotes, keine Kommentare).
+  - Jeder Absatz genau 3 Sätze.
+  - Keine Informationen ohne Chunk-Evidence.
+  - Confidence ist der Mittelwert der verwendeten Chunk-Scores (gerundet auf 2 Dezimalstellen).
+
+metadata:
+  max_tokens: 1200
+  temperature: 0.6
+  top_p: 0.9
+  output_format: "json"
