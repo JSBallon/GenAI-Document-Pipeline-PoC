@@ -1,10 +1,12 @@
-# AI Governance PoC: GenAI Pipeline
+# AI Governance PoC: GenAI Document Pipeline
 
 [![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://www.python.org/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.31-red.svg)](https://streamlit.io/)
 [![RAG](https://img.shields.io/badge/RAG-Local%20Embeddings-green.svg)](https://www.deeplearning.ai/short-courses/building-evaluating-advanced-rag/)
 [![EU AI Act](https://img.shields.io/badge/EU%20AI%20Act-Ready-gold.svg)](https://artificialintelligenceact.eu/)
 [![License](https://img.shields.io/badge/License-All%20Rights%20Reserved-red.svg)](LICENSE)
+
+🇬🇧 [English version](README.en.md)
 
 > **Vom Dokument-Input bis zum kontrollierten Output: Eine Single-Agent-Pipeline, die zeigt, dass Governance kein Blocker für GenAI ist, sondern ein Enabler für regulierte Industrien.**
 
@@ -13,14 +15,12 @@
 - [Governance Controls im Detail](#governance-controls-im-detail)
 - [Regulatory Compliance Mapping](#regulatory-compliance-mapping)
 - [Tech Stack](#tech-stack)
-- [Quick Start](#quick-start)
+- [Installation/Quick Start](#quick-start)
 - [Projektstruktur](#projektstruktur)
 - [Weiterführende Dokumentation](#weiterführende-dokumentation)
 - [Kontakt & Lizenz](#kontakt--lizenz)
 
 **LinkedIn:** [Jakob Simon Ballon](https://www.linkedin.com/in/jakob-simon-ballon-90927b3b2/) — Demo-Anfragen willkommen!
-
-[Gehe zu Installation](#installation--setup)
 
 ## Das Problem
 
@@ -110,6 +110,7 @@ graph TD
 - **Pflichtfelder**: Name, Kontakt (CV) / Titel, Requirements (JobAd)
 
 ![Document Upload](./.img/01_document-upload.png)
+_(Streamlit - Einlesen View)_
 
 **Governance Controls:**
 - ✅ Nur schema-konforme Inputs werden akzeptiert
@@ -131,6 +132,7 @@ graph TD
 - **Chunk-Size-Kontrolle**: Max. 500 Tokens, Min. 50 Tokens (konfigurierbar)
 
 ![Chunking View](./.img/02_chunking-view.png)
+_(Streamlit - Chunking View)_
 
 **Governance Controls:**
 - ✅ **PII Isolation**: Roh-PII (Name, E-Mail, Telefon) bleibt in Frontmatter-Metadata
@@ -155,12 +157,13 @@ graph TD
 - **Strukturierung**: `{requirement_text, category, importance}` (JSON)
 - **Embedding**: sentence-transformers (lokal, keine Cloud-API)
 
-![Retrieval View](./.img/03_retrieval-view.png)
-
 **Vector Similarity Search:**
 - **Top-K Retrieval**: Standardmäßig Top-5 (konfigurierbar 1-10)
 - **Score Threshold**: Min. 0.6 (anpassbar 0.4-0.9)
 - **Scoring**: Cosine Similarity (scipy)
+
+![Retrieval View](./.img/03_retrieval-view.png)
+_(Streamlit - Retrieval View)_
 
 **Governance Controls:**
 - ✅ **Decision Logging**: Threshold, Top-K, Retrieved Chunks protokolliert (JSONL)
@@ -168,6 +171,7 @@ graph TD
 - ✅ **Insufficient Evidence Warnings**: Bei Score < 0.6
 
 ![Retrieval View - Log - JSON Crack render](./.img/03_retrieval-view_log-JSONCrackRender.png)
+_(JSON Crack render - Retrieval Logs)_
 
 **Visualisierung:**
 - Requirement-Selection Dropdown
@@ -190,6 +194,7 @@ graph TD
 - **Explizite Freigabe**: Button-basiert ("Daten freigeben und fortfahren")
 
 ![HITL Gate](./.img/04_hitl-gate.png)
+_(Streamlit - HITL Gate View)_
 
 **Datentransparenz:**
 - Alle Chunks visuell inspizierbar (Text + Metadata + Scores)
@@ -202,6 +207,7 @@ graph TD
 - ✅ Approval-Log: Timestamp + User-ID der Freigabe (für Audit)
 
 ![HITL Gate - Log - JSON Crack render](./.img/04_hitl-gate_log-JSONCrackRender.png)
+_(JSON Crack render - Prompt Logs pre LLM)_
 
 **Warum dieses Gate kritisch ist:**
 - Verhindert unkontrollierte PII-Übermittlung
@@ -222,6 +228,7 @@ graph TD
 - **Output-Format**: `{paragraph_text, source_chunks: [{chunk_id, relevance}]}`
 
 ![LLM Generation](./.img/05_llm-generation.png)
+_(Streamlit - Result View)_
 
 **Governance Controls:**
 - ✅ **Prompt Logging**: Full Prompt Text + Version + Model + Parameters (JSONL)
@@ -229,8 +236,10 @@ graph TD
 - ✅ **Evidence Binding**: Nur bereitgestellte Chunks im Kontext, keine Web-Suche
 
 ![LLM Generation - Log - JSON Crack render](./.img/05_llm-generation_log-JSONCrackRender.png)
+_(JSON Crack render - Prompt Logs post LLM)_
 
 ![LLM Generation - Meta - JSON Crack render](./.img/05_llm-generation_meta-JSONCrackRender.png)
+_(JSON Crack render - Meta Data)_
 
 **Model-Flexibilität:**
 - OpenRouter.ai unterstützt GPT-4, Claude Sonnet, Llama, etc.

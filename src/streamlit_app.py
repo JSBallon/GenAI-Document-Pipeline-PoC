@@ -381,11 +381,33 @@ def _render_prelude_info() -> None:
     GenAI in Financial Services erfordert mehr als gute Modelle — es braucht eine Pipeline, 
     die Halluzinationen verhindert, Daten schützt und jeden Schritt auditierbar macht.
     
-    Eine **produktionsnahe Techdemo** für kontrollierte generative KI im Dokumentenkontext 
+    Eine **produktionsnahe Konzeptstudie** für kontrollierte generative KI im Dokumentenkontext 
     auf Corporate-Governance-Niveau, fokussiert auf **Financial Services**.
     
     **Ziel:** Demonstrieren, dass Governance kein Blocker für GenAI ist, sondern der Enabler, 
     der GenAI in regulierte Industrien bringt.
+    
+    ---
+    
+    ### Demo Use Case: CV + Anschreiben
+
+    **Warum dieser Use Case?**
+    - ✅ **Universell verständlich**: Jeder kennt Bewerbungsdokumente — kein Domänenwissen nötig
+    - ✅ **Governance-relevant**: PII-Daten, Quellenverkettung, Halluzinationsrisiko — alles vorhanden
+    - ✅ **Schnell demonstrierbar**: 30 Sek. Upload → 60 Sek. Generation → sofort Review
+    - ✅ **Übertragbar**: Identisches Muster wie KYC/AML, Kreditprüfung, Instrumenten-Mapping
+
+    ## Übertragbare Use Cases (Financial Services)
+
+    | Use Case | Input-Dokumente | Output | Governance-Anforderung |
+    |----------|-----------------|--------|----------------------|
+    | **Interne & Externe Berichte** | Auswertungen, Datenpunkte | Dokument, Bericht | Rückverfolgbarkeit zum Zahlenwerk |
+    | **Instrumenten-Mapping** | Produkt-Flyer, Jahresberichte | Sektor-Zuordnung | Quellennachweis für jede Klassifikation |
+    | **KYC/AML Vor-Prüfung** | Kundendaten, Sanktionslisten | Prüfbericht | Keine MNPI/PII versehentlich in Reports |
+    | **Kreditprüfung** | Business Plans, JV-Verträge | Kreditanalyse | Vertrauliche Dokumente kontrolliert verarbeiten |
+    | **Vertragsanalyse** | Rechtsdokumente | Risiko-Summary | Rückverfolgbarkeit auf Original-Klauseln |
+
+    **Kernbotschaft:** Gleiche Governance-Patterns, andere Dokumente.
     
     ---
     
